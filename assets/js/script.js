@@ -237,7 +237,7 @@ var dragLeaveHandler = function(event) {
     }
   }
 var saveTasks = function(){
-    localStorage.setItem("tasks", tasks);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 pageContentEl.addEventListener("click", taskButtonHandler);
