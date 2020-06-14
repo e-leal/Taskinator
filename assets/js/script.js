@@ -242,47 +242,20 @@ var saveTasks = function(){
 
 var loadTasks = function(){
     // load saved tasks into tasks variable
-    tasks = localStorage.getItem("tasks");
+    var savedTasks = localStorage.getItem("tasks");
     //check if returned/loaded task is null and if it is, reassign tasks to an empty array
-    if(tasks === null){
-        tasks = [];
+    if(!savedTasks){
         return false;
     }
-    tasks = JSON.parse(tasks);
-    for(var i = 0; i<tasks.length; i++){
-        tasks[i].id = taskIdCounter;
-        console.log(tasks[i]);
-        var listItemEl = document.createElement("li");
-        listItemEl.className = "task-item";
-        // add task id as a custom attribute
-        listItemEl.setAttribute("data-task-id", taskIdCounter);
-        // add draggable attribute to task
-        listItemEl.setAttribute("draggable", "true");
-        var taskInfoEl = document.createElement("div");
-        // give it a class name
-        taskInfoEl.className = "task-info";
-        // add HTML content to div
-        taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
-        listItemEl.appendChild(taskInfoEl);
-        var taskActionsEl = createTaskActions(tasks[i].id);
-        listItemEl.appendChild(taskInfoEl);
-        listItemEl.appendChild(taskActionsEl);
-        if(tasks[i].status === "to do"){
-          listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
-          tasksToDoEl.appendChild(listItemEl);
-        }
-        else if( tasks[i].status === "in progress"){
-          listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
-          tasksInProgressEl.appendChild(listItemEl);
-        }
-        else if (tasks[i].status === "complete"){
-          listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
-          tasksCompletedEl.appendChild(listItemEl);
-        }
-        taskIdCounter++;
-        console.log(listItemEl);
-        //createTaskEl(tasks[i]);
+    savedTasks = JSON.parse(savedTasks);
+    // loop through savedTasks array
+    for(var i = 0; i< savedTasks.length; i++){
+      // pass each task object ino the creatTaskEl() function
+      createTaskEl(savedTasks[i]);
     }
+        taskIdCounter++;
+        //createTaskEl(tasks[i]);
+    
 }
 
 pageContentEl.addEventListener("click", taskButtonHandler);
